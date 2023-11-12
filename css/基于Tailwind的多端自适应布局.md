@@ -194,38 +194,38 @@ export { ScreenContext, ScreenProvider, useScreen };
 
    hover 效果应该只应用在 PC 端，因为手机端点击会触发 hover 效果，而且必须点击其他位置，才能取消掉 hover 效果，所以，如果我们要实现一个在 PC 上有 hover 效果，在手机上没有 hover 效果的按钮，可以这样做：
 
-   ```jsx
-   <button className=" lg:hover:bg-blue-500"></button>
-   ```
+```jsx
+<button className=" lg:hover:bg-blue-500"></button>
+```
 
 3. code split
 
    大多数情况下，一个用户只会看到某个断点下的页面，所以，我们可以根据当前的断点，来决定加载哪些组件，这样可以减少不必要的代码加载，减少 js 体积，提高页面加载速度。比如，我们的 Sider 内的侧边导航栏组件只在`lg`断点后显示，那么我们可以这样做：
 
-   ```jsx
-   const SiderMenu = React.lazy(() => import("./SiderMenu"));
+```jsx
+const SiderMenu = React.lazy(() => import("./SiderMenu"));
 
-   const App = () => {
-     const { screenBreakpoint } = useScreen();
-     return (
-       <Layout>
-         <Header className="lg:hidden"></Header>
-         <Layout>
-           <Sider className="hidden lg:block">
-             {["lg", "xl", "2xl"].includes(screenBreakpoint) && (
-               <Suspense fallback={null}>
-                 <SiderMenu />
-               </Suspense>
-             )}
-           </Sider>
+const App = () => {
+  const { screenBreakpoint } = useScreen();
+  return (
+    <Layout>
+      <Header className="lg:hidden"></Header>
+      <Layout>
+        <Sider className="hidden lg:block">
+          {["lg", "xl", "2xl"].includes(screenBreakpoint) && (
+            <Suspense fallback={null}>
+              <SiderMenu />
+            </Suspense>
+          )}
+        </Sider>
 
-           <Content>...</Content>
-         </Layout>
-         <Footer className="lg:hidden"></Footer>
-       </Layout>
-     );
-   };
-   ```
+        <Content>...</Content>
+      </Layout>
+      <Footer className="lg:hidden"></Footer>
+    </Layout>
+  );
+};
+```
 
 ## 总结
 
